@@ -7,7 +7,10 @@ let cells = []
 // Caterpillar configuration
 const startingPosition = 94
 let currentPosition = startingPosition
+let startingFoodPosition = 0
+let newFoodPosition = 0
 let currentDirection = "up"
+let foodPosition = 0
 let catBody = [94]
 
 function init() {
@@ -40,29 +43,52 @@ function createGrid() {
     console.log("Grid Created")
     // Add cat class to starting position of cell
     addCat(startingPosition)
+    addFood()
     console.log(startingPosition)
     render()
-}
+
+    }
 }
 
-setInterval(render, 1000)
+setInterval(render, 400)
+function render() {
+    // updateFoodPosition()
+    updateCatPosition()
+    // updateCatBody()
+    // renderMessage()
+    // renderControls()
+}
 
-function updateCatBody() {
-    
-    console.log("updateCatBody")
+function addFood() {
+    startingFoodPosition = (Math.floor((Math.random() * 99) + 1))
+    cells[startingFoodPosition].classList.add("food")
+    foodPosition = startingFoodPosition
+}
+
+function removeFood() {
+    cells[foodPosition].classList.remove("food")
 }
 
 function updateFoodPosition() {
-    console.log("updateFoodPosition")
+    if (cells[currentPosition].classList.contains("food")) {
+        removeFood()
+        newFoodPosition = (Math.floor((Math.random() * 99) + 1));
+        cells[newFoodPosition].classList.add("food");
+        foodPosition = newFoodPosition;
+    // if (currentPosition === foodPosition) {
+    // removeFood()
+    // foodPosition = (Math.floor((Math.random() * 99) + 1))
+    // cells[foodPosition].classList.add("food")
+    // console.log("updateFoodPosition")
+    // }
+    }
 }
 
 function removeCat() {
-    console.log("caterpillar removed")
     cells[currentPosition].classList.remove("cat")
 }
 
 function addCat() {
-    console.log("caterpillar added to following cell => " + currentPosition)
     cells[currentPosition].classList.add("cat")
 }
 
@@ -78,16 +104,16 @@ function updateCatDirection(event) {
     // Remove caterpillar from previous position before updating current position to new cell
     removeCat() // Remove caterpillar BEFORE current position is updated
 
-    if (key === up && currentPosition >= width) {
+    if (key === up && currentDirection !== ("down" || "up")) {
         currentPosition -= width
         currentDirection = "up"
-    } else if (key === down && currentPosition + width <= cellCount - 1) {
+    } else if (key === down && currentDirection !== ("up" || "down")) {
         currentPosition += width
         currentDirection = "down"
-    } else if (key === left && currentPosition % width !== 0) {
+    } else if (key === left && currentDirection !== ("right" || "left")) {
         currentPosition--
         currentDirection = "left"
-    } else if (key === right && currentPosition % width !== width - 1) {
+    } else if (key === right && currentDirection !== ("left" || "right")) {
         currentPosition++
         currentDirection = "right"
     } else {
@@ -101,42 +127,33 @@ function updateCatDirection(event) {
 function updateCatPosition() {
     // needs to be current position plus one cell above
     removeCat()
+    let newPosition
+
     if (currentDirection === "up") {
-        currentPosition = currentPosition - 10        
-        addCat()
+        newPosition = currentPosition - width        
     } else if (currentDirection === "down") {
-        currentPosition = currentPosition + 10
-        addCat()
+        newPosition = currentPosition + width
     } else if (currentDirection === "left") {
-        currentPosition = currentPosition - 1
-        addCat()
+        newPosition = currentPosition - 1
     } else if (currentDirection === "right") {
-        currentPosition = currentPosition + 1
-        addCat()
+        newPosition = currentPosition + 1
     } 
-    console.log(currentPosition)
+    currentPosition = newPosition
+    addCat()
+    updateFoodPosition()
+
 }
 
-function render() {
-    console.log("render")
-    // updateCatDirection()
-    updateCatPosition()
-    // updateCatBody()
-    // updateFoodPosition()
-    // renderMessage()
-    // renderControls()
-}
+// function renderControls() { // if game over, disable play and renderMessage "game over"
+//     // display option to play again
+//     console.log("renderControls")
+// }
 
-function renderControls() { // if game over, disable play and renderMessage "game over"
-    // display option to play again
-    console.log("renderControls")
-}
-
-function renderMessage() {
-   // if game over, message game over
-   //if not game over, game carries on
-   console.log("renderMessage")
-}
+// function renderMessage() {
+//    // if game over, message game over
+//    //if not game over, game carries on
+//    console.log("renderMessage")
+// }
 
 // ! EVENTS
 document.addEventListener("keyup", updateCatDirection)

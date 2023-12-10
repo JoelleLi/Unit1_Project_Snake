@@ -48,6 +48,8 @@ h1 {
   .grid div.food {
     background-color: yellow;
     border: 0.1vmin solid  green;
+    border-radius: 50%;
+    scale: 50%;
   }
 
   
