@@ -7,7 +7,7 @@ let cells = []
 // Caterpillar configuration
 const startingPosition = 94
 let currentPosition = startingPosition
-let catDirection = 0
+let currentDirection = "up"
 let catBody = [94]
 
 function init() {
@@ -40,21 +40,13 @@ function createGrid() {
     console.log("Grid Created")
     // Add cat class to starting position of cell
     addCat(startingPosition)
+    console.log(startingPosition)
     render()
 }
 }
 
 setInterval(render, 1000)
 
-function updateCatPosition() {
-    // needs to be current position plus one cell above
-    removeCat()
-    if (currentPosition !== -1) {
-        currentPosition = currentPosition - 10        
-        addCat()
-    }
-    console.log(currentPosition)
-}
 function updateCatBody() {
     
     console.log("updateCatBody")
@@ -69,7 +61,7 @@ function removeCat() {
     cells[currentPosition].classList.remove("cat")
 }
 
-function addCat(startingPosition) {
+function addCat() {
     console.log("caterpillar added to following cell => " + currentPosition)
     cells[currentPosition].classList.add("cat")
 }
@@ -88,18 +80,41 @@ function updateCatDirection(event) {
 
     if (key === up && currentPosition >= width) {
         currentPosition -= width
+        currentDirection = "up"
     } else if (key === down && currentPosition + width <= cellCount - 1) {
         currentPosition += width
+        currentDirection = "down"
     } else if (key === left && currentPosition % width !== 0) {
         currentPosition--
+        currentDirection = "left"
     } else if (key === right && currentPosition % width !== width - 1) {
         currentPosition++
+        currentDirection = "right"
     } else {
         console.log("INVALID KEY")
     }
     // Add cat class once currentPosition has been updated
     addCat(currentPosition)
     // render()
+}
+
+function updateCatPosition() {
+    // needs to be current position plus one cell above
+    removeCat()
+    if (currentDirection === "up") {
+        currentPosition = currentPosition - 10        
+        addCat()
+    } else if (currentDirection === "down") {
+        currentPosition = currentPosition + 10
+        addCat()
+    } else if (currentDirection === "left") {
+        currentPosition = currentPosition - 1
+        addCat()
+    } else if (currentDirection === "right") {
+        currentPosition = currentPosition + 1
+        addCat()
+    } 
+    console.log(currentPosition)
 }
 
 function render() {
