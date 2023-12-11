@@ -4,8 +4,7 @@ const height = 10
 const cellCount = width * height
 let cells = []
 
-// Caterpillar configuration
-const startingPosition = 94
+const startingPosition = 74
 let currentPosition = startingPosition
 let newPosition = 0
 let startingFoodPosition = 0
@@ -13,8 +12,10 @@ let newFoodPosition = 0
 let currentScore = 0
 let currentDirection = "up"
 let foodPosition = 0
-let catBody = [94, 84]
-let catHead = catBody[0]
+let catBody = [74, 84]
+let collision = false
+let intervalDuration = 600
+let gameState 
 
 function init() {
 // Create grid
@@ -43,23 +44,28 @@ function createGrid() {
         cells.push(cell)
     }
     // Add cat class to starting position of cell
-    updateCatPosition()
     addFood()
     render()
-
     }
 }
 
 setInterval(updateFoodPosition, 10)
 
-setInterval(render, 400)
+setInterval(render, 600)
+
 function render() {
+    checkIfCollision()
     updateFoodPosition()
     updateCatPosition()
-    // updateCatBody()
-    // renderMessage()
-    // renderControls()
+    renderMessage()
+
+    const maxSpeed = 100
+    intervalDuration = Math.max(maxSpeed, 600 - currentScore * 10)
+    clearInterval(renderInterval)
+    renderInterval = setInterval(render, intervalDuration)
 }
+
+let renderInterval = setInterval(render, intervalDuration)
 
 function addFood() {
     startingFoodPosition = (Math.floor((Math.random() * 99) + 1))
@@ -73,27 +79,25 @@ function removeFood() {
 
 function updateFoodPosition() {
     if (cells[currentPosition].classList.contains("food")) {
-        // updateCatBody()
         removeFood()
         addFood()
         updatePoints()
+        growCatBody()
     }
 }
 
 function removeCat() {
-    cells[currentPosition].classList.remove("cat")
+    cells.forEach((cell) => cell.classList.remove("cat"))
 }
 
 function addCat() {
     cells[currentPosition].classList.add("cat")
 }
 
-// function updateCatBody() {
-//     // cells.forEach(cell => cell.classList.remove("cat"))
-//     catBody.push(currentPosition)
-//     console.log(catBody)
-//     // newPosition = catBody.forEach((cell) => (cells[cell].classList.add("cat")))
-// }
+function growCatBody() {
+    catBody.push(catBody.length)
+    console.log("grow")
+}
 
 function updateCatDirection(event) {
     const key = event.keyCode
@@ -125,34 +129,51 @@ function updateCatDirection(event) {
 }
 
 function updateCatPosition() {
-    // needs to be current position plus one cell above
-
-    cells.forEach((cell) => cell.classList.remove("cat"))
-    catBody.pop() //removes the last element from array
-    catBody.forEach(cell => (cells[cell].classList.add("cat")))
-    console.log(catBody)
-
 
     if (currentDirection === "up") {
+        removeCat()
         newPosition = currentPosition - width
-        catBody.push(newPosition)        
     } else if (currentDirection === "down") {
+        removeCat()
         newPosition = currentPosition + width
-        catBody.push(newPosition)
     } else if (currentDirection === "left") {
+        removeCat()
         newPosition = currentPosition - 1
-        catBody.push(newPosition)
     } else if (currentDirection === "right") {
+        removeCat()
         newPosition = currentPosition + 1
-        catBody.push(newPosition)
     } 
     currentPosition = newPosition
+    catBody.unshift(newPosition)
+    // console.log(catBody)
+    catBody.pop()
+    catBody.forEach(cell => (cells[cell].classList.add("cat"))) // makes caterpillar visible
 
-    catBody.push(newPosition)
-    catBody.unshift()
-    catBody.shift()
-    catBody.forEach(cell => (cells[cell].classList.add("cat")))
-    
+    console.log(catBody)
+}
+
+function checkIfCollision() {
+    const catHead = catBody[0]
+
+    // Check if the cat's head is outside the boundaries
+    const isOutsideLeftBoundary = catHead % width === 0
+    const isOutsideRightBoundary = catHead % width === width - 1
+    const isOutsideTopBoundary = catHead < width
+    const isOutsideBottomBoundary = catHead >= cellCount - width
+
+    if (isOutsideLeftBoundary || isOutsideRightBoundary || isOutsideTopBoundary || isOutsideBottomBoundary) {
+        collision = true
+        console.log("collision with wall")
+    }
+
+    // Check if the cat's head collides with its own body
+    for (let i = 1; i < catBody.length; i++) {
+        if (catHead === catBody[i]) {
+            console.log("collision with body")
+            collision = true
+        }
+    }
+    return collision
 }
 
 function updatePoints() {
@@ -161,16 +182,15 @@ function updatePoints() {
     console.log("points: " + currentScore)
 }
 
-// function renderControls() { // if game over, disable play and renderMessage "game over"
-//     // display option to play again
-//     console.log("renderControls")
-// }
-
-// function renderMessage() {
-//    // if game over, message game over
-//    //if not game over, game carries on
-//    console.log("renderMessage")
-// }
+function renderMessage() {
+    const collision = checkIfCollision()
+    if (collision === true) {
+        if (confirm("GAME OVER, PLAY AGAIN?")) {
+            console.log("you pressed ok")
+            location.reload()
+        } 
+    }   return
+}
 
 // ! EVENTS
 document.addEventListener("keydown", updateCatDirection)

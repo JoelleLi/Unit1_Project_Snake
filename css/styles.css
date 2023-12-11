@@ -57,4 +57,10 @@ h1 {
    scale: 50%;
 }
 
+#catHead {
+  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/pinkcircle.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
   
