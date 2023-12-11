@@ -7,14 +7,16 @@ let cells = []
 // Caterpillar configuration
 const startingPosition = 94
 let currentPosition = startingPosition
+let newPosition = 0
 let startingFoodPosition = 0
 let newFoodPosition = 0
+let currentScore = 0
 let currentDirection = "up"
 let foodPosition = 0
-let catBody = [94]
+let catBody = [94, 84]
+let catHead = catBody[0]
 
 function init() {
-console.log("init")
 // Create grid
 const grid = document.querySelector(".grid")
 createGrid()
@@ -40,19 +42,19 @@ function createGrid() {
         // Add newly created div cell to cells array
         cells.push(cell)
     }
-    console.log("Grid Created")
     // Add cat class to starting position of cell
-    addCat(startingPosition)
+    updateCatPosition()
     addFood()
-    console.log(startingPosition)
     render()
 
     }
 }
 
+setInterval(updateFoodPosition, 10)
+
 setInterval(render, 400)
 function render() {
-    // updateFoodPosition()
+    updateFoodPosition()
     updateCatPosition()
     // updateCatBody()
     // renderMessage()
@@ -71,16 +73,10 @@ function removeFood() {
 
 function updateFoodPosition() {
     if (cells[currentPosition].classList.contains("food")) {
+        // updateCatBody()
         removeFood()
-        newFoodPosition = (Math.floor((Math.random() * 99) + 1));
-        cells[newFoodPosition].classList.add("food");
-        foodPosition = newFoodPosition;
-    // if (currentPosition === foodPosition) {
-    // removeFood()
-    // foodPosition = (Math.floor((Math.random() * 99) + 1))
-    // cells[foodPosition].classList.add("food")
-    // console.log("updateFoodPosition")
-    // }
+        addFood()
+        updatePoints()
     }
 }
 
@@ -92,10 +88,15 @@ function addCat() {
     cells[currentPosition].classList.add("cat")
 }
 
+// function updateCatBody() {
+//     // cells.forEach(cell => cell.classList.remove("cat"))
+//     catBody.push(currentPosition)
+//     console.log(catBody)
+//     // newPosition = catBody.forEach((cell) => (cells[cell].classList.add("cat")))
+// }
+
 function updateCatDirection(event) {
     const key = event.keyCode
-    console.log(event.keyCode)
-
     const up = 38
     const down = 40
     const left = 37
@@ -120,28 +121,44 @@ function updateCatDirection(event) {
         console.log("INVALID KEY")
     }
     // Add cat class once currentPosition has been updated
-    addCat(currentPosition)
-    // render()
+    addCat(currentPosition)    
 }
 
 function updateCatPosition() {
     // needs to be current position plus one cell above
-    removeCat()
-    let newPosition
+
+    cells.forEach((cell) => cell.classList.remove("cat"))
+    catBody.pop() //removes the last element from array
+    catBody.forEach(cell => (cells[cell].classList.add("cat")))
+    console.log(catBody)
+
 
     if (currentDirection === "up") {
-        newPosition = currentPosition - width        
+        newPosition = currentPosition - width
+        catBody.push(newPosition)        
     } else if (currentDirection === "down") {
         newPosition = currentPosition + width
+        catBody.push(newPosition)
     } else if (currentDirection === "left") {
         newPosition = currentPosition - 1
+        catBody.push(newPosition)
     } else if (currentDirection === "right") {
         newPosition = currentPosition + 1
+        catBody.push(newPosition)
     } 
     currentPosition = newPosition
-    addCat()
-    updateFoodPosition()
 
+    catBody.push(newPosition)
+    catBody.unshift()
+    catBody.shift()
+    catBody.forEach(cell => (cells[cell].classList.add("cat")))
+    
+}
+
+function updatePoints() {
+    currentScore++
+    document.getElementById("score").innerText = `score : ${currentScore}`
+    console.log("points: " + currentScore)
 }
 
 // function renderControls() { // if game over, disable play and renderMessage "game over"
@@ -156,6 +173,6 @@ function updateCatPosition() {
 // }
 
 // ! EVENTS
-document.addEventListener("keyup", updateCatDirection)
+document.addEventListener("keydown", updateCatDirection)
 // ! PAGE LOAD
 window.addEventListener("DOMContentLoaded", init)

@@ -13,14 +13,19 @@ h1 {
     text-align: center;
 }
 
+#score {
+  color: rgba(233, 127, 182, 0.8);
+  text-align: center;
+}
+
 .grid-wrapper {
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
   
-  .grid {
+.grid {
     align-items: center;
     box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
     display: flex;
@@ -29,27 +34,27 @@ h1 {
     justify-content: center;
     height: 600px;
     width: 600px;
-  }
+}
   
-  .grid div {
-    border: 1px solid rgba(233, 127, 182, 0.8);
-    flex-grow: 1;
-    height: 10%;
-    width: 10%;
-  }
+.grid div {
+  border: 1px solid rgba(233, 127, 182, 0.8);
+  flex-grow: 1;
+  height: 10%;
+  width: 10%;
+}
   
-  .grid div.cat {
-    background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/greencircle.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-  }
+.grid div.cat {
+  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/greencircle.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 
-  .grid div.food {
-    background-color: yellow;
-    border: 0.1vmin solid  green;
-    border-radius: 50%;
-    scale: 50%;
-  }
+.grid div.food {
+   background-color: yellow;
+   border: 0.1vmin solid  green;
+   border-radius: 50%;
+   scale: 50%;
+}
 
   
