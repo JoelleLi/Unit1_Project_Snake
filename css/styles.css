@@ -39,8 +39,8 @@ h1 {
 .grid div {
   border: 1px solid rgba(233, 127, 182, 0.8);
   flex-grow: 1;
-  height: 10%;
-  width: 10%;
+  height: 5%;
+  width: 5%;
 }
   
 .grid div.cat {
