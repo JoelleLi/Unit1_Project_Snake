@@ -4,7 +4,7 @@ const height = 10
 const cellCount = width * height
 let cells = []
 
-const startingPosition = 74
+const startingPosition = 0
 let currentPosition = startingPosition
 let newPosition = 0
 let startingFoodPosition = 0
@@ -12,7 +12,7 @@ let newFoodPosition = 0
 let currentScore = 0
 let currentDirection = "up"
 let foodPosition = 0
-let catBody = [74, 84]
+let catBody = [1, 0]
 let collision = false
 let intervalDuration = 600
 let gameState 
@@ -54,10 +54,10 @@ setInterval(updateFoodPosition, 10)
 setInterval(render, 600)
 
 function render() {
-    checkIfCollision()
     updateFoodPosition()
     updateCatPosition()
-    renderMessage()
+    // checkIfCollision()
+    // renderMessage()
 
     const maxSpeed = 100
     intervalDuration = Math.max(maxSpeed, 600 - currentScore * 10)
@@ -111,16 +111,16 @@ function updateCatDirection(event) {
 
     if (key === up && currentDirection !== ("down" || "up")) {
         currentPosition -= width
-        currentDirection = "up"
+        currentDirection = -width
     } else if (key === down && currentDirection !== ("up" || "down")) {
         currentPosition += width
-        currentDirection = "down"
+        currentDirection = width
     } else if (key === left && currentDirection !== ("right" || "left")) {
         currentPosition--
-        currentDirection = "left"
+        currentDirection = -1
     } else if (key === right && currentDirection !== ("left" || "right")) {
         currentPosition++
-        currentDirection = "right"
+        currentDirection = 1
     } else {
         console.log("INVALID KEY")
     }
@@ -130,21 +130,21 @@ function updateCatDirection(event) {
 
 function updateCatPosition() {
 
-    if (currentDirection === "up") {
+    if (currentDirection === -width) {
         removeCat()
         newPosition = currentPosition - width
-    } else if (currentDirection === "down") {
+    } else if (currentDirection === width) {
         removeCat()
         newPosition = currentPosition + width
-    } else if (currentDirection === "left") {
+    } else if (currentDirection === -1) {
         removeCat()
         newPosition = currentPosition - 1
-    } else if (currentDirection === "right") {
+    } else if (currentDirection === 1) {
         removeCat()
         newPosition = currentPosition + 1
     } 
     currentPosition = newPosition
-    catBody.unshift(newPosition)
+    catBody.unshift(currentPosition)
     // console.log(catBody)
     catBody.pop()
     catBody.forEach(cell => (cells[cell].classList.add("cat"))) // makes caterpillar visible
@@ -153,19 +153,30 @@ function updateCatPosition() {
 }
 
 function checkIfCollision() {
-    const catHead = catBody[0]
+//     const catHead = catBody[0]
 
-    // Check if the cat's head is outside the boundaries
-    const isOutsideLeftBoundary = catHead % width === 0
-    const isOutsideRightBoundary = catHead % width === width - 1
-    const isOutsideTopBoundary = catHead < width
-    const isOutsideBottomBoundary = catHead >= cellCount - width
+//     if ((catBody[0] + width >= width * width && currentDirection === width) || // hits bottom wall
+//     (catBody[0] % width === width - 1 && currentDirection === 1) || // hits right wall
+//     (catBody[0] % width === 0 && currentDirection === -1) || // hits left wall
+//     (catBody[0] - width < 0 && currentDirection === -width)) {
+//         console.log("collision with wall")
+//         collision = true
+//         renderMessage()
+//     }
+    //*-----------------------------------------------------*
+    // const catHeadRow = Math.floor(catHead / width);
+    // const catHeadCol = catHead % width;
 
-    if (isOutsideLeftBoundary || isOutsideRightBoundary || isOutsideTopBoundary || isOutsideBottomBoundary) {
-        collision = true
-        console.log("collision with wall")
-    }
+    // const isOutsideLeftBoundary = catHeadCol === 0 // and render happens again
+    // const isOutsideRightBoundary = catHeadCol === width - 1
+    // const isOutsideTopBoundary = catHeadRow === 0
+    // const isOutsideBottomBoundary = catHeadRow === Math.floor((cellCount - 1) / width)
 
+    // if (isOutsideLeftBoundary || isOutsideRightBoundary || isOutsideTopBoundary || isOutsideBottomBoundary) {
+    //     collision = true
+    //     console.log("collision with wall")
+    // }
+    //*-----------------------------------------------------*
     // Check if the cat's head collides with its own body
     for (let i = 1; i < catBody.length; i++) {
         if (catHead === catBody[i]) {
@@ -182,15 +193,15 @@ function updatePoints() {
     console.log("points: " + currentScore)
 }
 
-function renderMessage() {
-    const collision = checkIfCollision()
-    if (collision === true) {
-        if (confirm("GAME OVER, PLAY AGAIN?")) {
-            console.log("you pressed ok")
-            location.reload()
-        } 
-    }   return
-}
+// function renderMessage() {
+//     const collision = checkIfCollision()
+//     if (collision === true) {
+//         if (confirm("GAME OVER, PLAY AGAIN?")) {
+//             console.log("you pressed ok")
+//             location.reload()
+//         } 
+//     }   return
+// }
 
 // ! EVENTS
 document.addEventListener("keydown", updateCatDirection)
