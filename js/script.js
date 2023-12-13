@@ -99,6 +99,10 @@ function init() {
     downButton.addEventListener("click", () => updateCatDirection("down"))
     leftButton.addEventListener("click", () => updateCatDirection("left"))
     rightButton.addEventListener("click", () => updateCatDirection("right"))
+    upButton.addEventListener("touchstart", () => updateCatDirection("up"))
+    downButton.addEventListener("touchstart", () => updateCatDirection("down"))
+    leftButton.addEventListener("touchstart", () => updateCatDirection("left"))
+    rightButton.addEventListener("touchstart", () => updateCatDirection("right"))
 
     document.addEventListener("keyup", updateCatDirection)
     // function updateCatDirection(event) {

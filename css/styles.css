@@ -179,8 +179,13 @@ background-size: contain;
 
 #buttonContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 @media only screen and (min-width: 900px) {
