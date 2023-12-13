@@ -89,48 +89,60 @@ function init() {
         gameLoop = setInterval(render, intervalDuration)
     }
 
+    const upButton = document.querySelector("#upButton")
+    const downButton = document.querySelector("#downButton")
+    const leftButton = document.querySelector("#leftButton")
+    const rightButton = document.querySelector("#rightButton")
+
+
+    upButton.addEventListener("click", () => updateCatDirection("up"))
+    downButton.addEventListener("click", () => updateCatDirection("down"))
+    leftButton.addEventListener("click", () => updateCatDirection("left"))
+    rightButton.addEventListener("click", () => updateCatDirection("right"))
+
     document.addEventListener("keyup", updateCatDirection)
-    function updateCatDirection(event) {
-        // event.stopPropagation()        
-        const key = event.keyCode
-        const up = 38
-        const down = 40
-        const left = 37
-        const right = 39
-        const space = 32
+    // function updateCatDirection(event) {
+    //     // event.stopPropagation()        
+    //     const key = event.keyCode
+    //     const up = 38
+    //     const down = 40
+    //     const left = 37
+    //     const right = 39
+    //     const space = 32
     
-        switch (key) {
-            case up:
-                if (currentDirection !== width) {
-                    currentDirection = -width
-                } console.log("up")
-                break
-            case down:
-                if (currentDirection !== -width) {
-                    currentDirection = width
-                } console.log("down")
-                break
-            case left:
-                if (currentDirection !== 1) {
-                    currentDirection = -1
-                } console.log("left")
-                break
-            case right:
-                if (currentDirection !== -1) {
-                currentDirection = 1 
-                } console.log("right")
-                break
-            case space:
-                if (event.code === "Space" && !gameOver) {
-                    togglePause()
-                } else {
-                    updateCatDirection(event)
-                }
-                break
-            default:
-                console.log("INVALID KEY");
-        }        
-    }
+    //     switch (key) {
+    //         case up :
+    //             if (currentDirection !== width) {
+    //                 currentDirection = -width
+    //             } console.log("up")
+    //             break
+    //         case down:
+    //             if (currentDirection !== -width) {
+    //                 currentDirection = width
+    //             } console.log("down")
+    //             break
+    //         case left:
+    //             if (currentDirection !== 1) {
+    //                 currentDirection = -1
+    //             } console.log("left")
+    //             break
+    //         case right:
+    //             if (currentDirection !== -1) {
+    //             currentDirection = 1 
+    //             } console.log("right")
+    //             break
+    //         case space:
+    //             if (event.code === "Space" && !gameOver) {
+    //                 togglePause()
+    //             } else {
+    //                 updateCatDirection(event)
+    //             }
+    //             break
+    //         default:
+    //             console.log("INVALID KEY");
+    //     }        
+    // }
+
     // function updateCatDirection(event) {
     //     const key = event.keyCode
     //     const up = 38
@@ -150,6 +162,75 @@ function init() {
     //         console.log("INVALID KEY")
     //     }
     // }
+
+    function updateCatDirection(event) {
+    let key;
+
+    if (typeof event === 'string') {
+        // If the event is a string, it means it came from the button click
+        // Assign the corresponding keyCode based on the button
+        switch (event) {
+            case "up":
+                key = 38
+                break
+            case "down":
+                key = 40
+                break
+            case "left":
+                key = 37
+                break
+            case "right":
+                key = 39
+                break
+            default:
+                console.log("INVALID BUTTON")
+                return
+        }
+    } else {
+        // If it's a keyboard event, get the keyCode
+        key = event.keyCode
+    }
+
+    const up = 38
+    const down = 40
+    const left = 37
+    const right = 39
+    const space = 32
+
+    switch (key) {
+        case up :
+            if (currentDirection !== width) {
+                currentDirection = -width
+            } console.log("up")
+            break
+        case down:
+            if (currentDirection !== -width) {
+            currentDirection = width
+            } console.log("down")
+            break
+        case left:
+            if (currentDirection !== 1) {
+            currentDirection = -1
+            } console.log("left")
+            break
+        case right:
+            if (currentDirection !== -1) {
+            currentDirection = 1 
+            } console.log("right")
+            break
+         case space:
+            if (event.code === "Space" && !gameOver) {
+            togglePause()
+            } else {
+            updateCatDirection(event)
+            }
+            break
+            default:
+            console.log("INVALID KEY")
+        }        
+    }
+
+
 
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)

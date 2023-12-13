@@ -177,16 +177,18 @@ background-repeat: no-repeat;
 background-size: contain;
 }
 
-
-
-
-
-
-
-
-
+#buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media only screen and (min-width: 900px) {
+
+#buttonContainer {
+  display: none;
+}
+
 .grid {
   box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
   display: flex;
