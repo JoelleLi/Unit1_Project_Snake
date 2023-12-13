@@ -188,6 +188,7 @@ background-size: contain;
   flex-direction: column;
   justify-content: center;
   row-gap: 10px;
+  margin-bottom: 20px;
 }
 
 #upButton, #downButton, #leftButton, #rightButton {
@@ -198,13 +199,14 @@ background-size: contain;
   color: hotpink;
 }
 
-#pauseButton {
+#mute {
   background-color: beige;
   border-color: rgba(113, 152, 44);
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
   color: rgba(161, 221, 61);
-  margin: 10px;
+  display: flex;
+  margin: auto;
 }
 
 #bottomButtonRow {
@@ -216,10 +218,30 @@ button:hover {
   background-color: #45a049;
 }
 
+
+@media only screen and (min-width: 900px) {
+  
+}
+
+
+
+
+
 @media only screen and (min-width: 900px) {
 
 #buttonContainer {
   display: none;
+}
+
+#mute {
+  display: none;
+  /* background-color: beige;
+  border-color: rgba(113, 152, 44);
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
+  color: rgba(161, 221, 61);
+  display: flex;
+  margin: auto; */
 }
 
 .grid {
@@ -258,8 +280,10 @@ width: 850px;
 
 .firstcolumn {
 align-items: center;
-display: flex;
 margin: auto;
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 #highscore {
@@ -268,10 +292,13 @@ border: 2px solid rgba(233, 127, 182, 0.8);
 box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
 padding: 10px;
 width: 210px;
+grid-column: 1;
+grid-row: 3;
 }
 
 #score {
 text-align: center;
+grid-row: 4;
 }
 
 #gamePaused {

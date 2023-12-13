@@ -1,5 +1,31 @@
 function init() {
-    
+
+    let isMuted = false
+    let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
+    let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
+
+    // Store the original volume
+    const originalVolume = 1.0;
+    blipSound.volume = originalVolume;
+    collisionSound.volume = originalVolume;
+
+    const muteButton = document.getElementById("mute") // Update "muteButton" with the actual ID of your mute button
+    muteButton.addEventListener("click", toggleMute)
+    muteButton.addEventListener("touchstart", toggleMute)
+
+
+    function toggleMute() {
+        isMuted = !isMuted
+      
+        // Update volume based on mute status
+        blipSound.volume = isMuted ? 0 : originalVolume
+        collisionSound.volume = isMuted ? 0 : originalVolume
+      
+        // Update UI or perform other actions based on mute status if needed
+        const muteButton = document.getElementById("mute") // Update "muteButton" with the actual ID of your mute button
+        muteButton.innerText = isMuted ? "UNMUTE" : "MUTE"
+    }
+
     let gamePaused = false
 
     function togglePause() {
@@ -250,7 +276,7 @@ function init() {
 
     function removeFood() {
         cellsIndex[foodPosition].classList.remove("food")
-        let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
+        // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
         blipSound.play()
     }
 
@@ -293,7 +319,7 @@ function init() {
 
     function checkIfCollision() {
         const catHead = caterpillar[0]
-        let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
+        // let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
         // Check if caterpillar collides with walls
         if (catHead + currentDirection < 0 || // caterpillar's head is above the top boundary
             catHead + currentDirection >= cellCount || // caterpillar's head is below the bottom boundary
