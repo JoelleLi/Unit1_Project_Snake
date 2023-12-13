@@ -6,7 +6,7 @@ function init() {
         gamePaused = !gamePaused
         const gridMessage = document.getElementById("gridMessage")
 
-        if (!collision && gamePaused) {
+        if (!gameOver && gamePaused === true) {
             clearInterval(gameLoop)
             console.log("game paused")
             gridMessage.innerText = "game paused"     
@@ -100,13 +100,11 @@ function init() {
     downButton.addEventListener("click", () => updateCatDirection("down"))
     leftButton.addEventListener("click", () => updateCatDirection("left"))
     rightButton.addEventListener("click", () => updateCatDirection("right"))
-    pauseButton.addEventListener("click", () => togglePause())
 
     upButton.addEventListener("touchstart", () => updateCatDirection("up"))
     downButton.addEventListener("touchstart", () => updateCatDirection("down"))
     leftButton.addEventListener("touchstart", () => updateCatDirection("left"))
     rightButton.addEventListener("touchstart", () => updateCatDirection("right"))
-    pauseButton.addEventListener("touchstart", () => togglePause())
 
     document.addEventListener("keyup", updateCatDirection)
     // function updateCatDirection(event) {
@@ -190,9 +188,6 @@ function init() {
             case "right":
                 key = 39
                 break
-            // case "pause":
-            //     key = 32
-            //     break
             default:
                 console.log("INVALID BUTTON")
                 return

@@ -204,6 +204,7 @@ background-size: contain;
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
   color: rgba(161, 221, 61);
+  margin: 10px;
 }
 
 #bottomButtonRow {
@@ -297,32 +298,32 @@ margin: 40px;
 #title02 {
   animation: wiggle 3s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 45px;
 }
 #title03 {
   animation: wiggle 4s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 40px;
 }
 #title04 {
   animation: wiggle 5s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 42px;
 }
 #title05 {
   animation: wiggle 6s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 45px;
 }
 #title06 {
   animation: wiggle 7s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 40px;
 }
 #title07 {
   animation: wiggle 8s;
   animation-iteration-count: infinite;
-  width: 35px;
+  width: 32px;
 }
 #title08 {
   animation: wiggle 9s;
@@ -337,12 +338,12 @@ margin: 40px;
 #title10 {
   animation: wiggle 11s;
   animation-iteration-count: infinite;  
-  width: 50px;
+  width: 45px;
 }
 #title11 {
   animation: wiggle 12s;
   animation-iteration-count: infinite;
-  width: 50px;
+  width: 45px;
 }
 
 #header {
