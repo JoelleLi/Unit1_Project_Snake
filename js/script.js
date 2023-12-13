@@ -93,16 +93,20 @@ function init() {
     const downButton = document.querySelector("#downButton")
     const leftButton = document.querySelector("#leftButton")
     const rightButton = document.querySelector("#rightButton")
+    const pauseButton = document.querySelector("#pauseButton")
 
 
     upButton.addEventListener("click", () => updateCatDirection("up"))
     downButton.addEventListener("click", () => updateCatDirection("down"))
     leftButton.addEventListener("click", () => updateCatDirection("left"))
     rightButton.addEventListener("click", () => updateCatDirection("right"))
+    pauseButton.addEventListener("click", () => togglePause())
+
     upButton.addEventListener("touchstart", () => updateCatDirection("up"))
     downButton.addEventListener("touchstart", () => updateCatDirection("down"))
     leftButton.addEventListener("touchstart", () => updateCatDirection("left"))
     rightButton.addEventListener("touchstart", () => updateCatDirection("right"))
+    pauseButton.addEventListener("touchstart", () => togglePause())
 
     document.addEventListener("keyup", updateCatDirection)
     // function updateCatDirection(event) {
@@ -186,6 +190,9 @@ function init() {
             case "right":
                 key = 39
                 break
+            // case "pause":
+            //     key = 32
+            //     break
             default:
                 console.log("INVALID BUTTON")
                 return
@@ -233,8 +240,6 @@ function init() {
             console.log("INVALID KEY")
         }        
     }
-
-
 
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
@@ -343,11 +348,13 @@ function init() {
             console.log("GAME OVER")
             clearInterval(gameLoop)
             const gridMessage = document.getElementById("gridMessage")
-            gridMessage.innerHTML = "<h3>game over!<br>press enter<br>to play again</h3>"
+            gridMessage.innerHTML = "<h3>game over!<br>press enter<br>or click here<br>to play again</h3>"
             cellsIndex[caterpillar[0]].classList.remove("catHead")
 
+            gridMessage.addEventListener("click", handleRestartOption)
+            gridMessage.addEventListener("touchstart", handleRestartOption)
+
             document.addEventListener("keyup", handleRestartOption)
-            console.log("renderMessage")
         }   
 
     }
@@ -356,11 +363,20 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        if (key === restartKey) {
-            console.log("reset game")
+        if (event.type === "click" || key === restartKey) {
+            console.log("Reset Game")
             resetGame()
-            document.removeEventListener("keyup", handleRestartOption)
+            document.removeEventListener("keyup", handleRestartOption, ("enter"))
+            const gridMessage = document.getElementById("gridMessage")
+            gridMessage.removeEventListener("click", handleRestartOption)
+            gridMessage.removeEventListener("touchstart", handleRestartOption)
         }
+
+        // if (key === restartKey) {
+        //     console.log("reset game")
+        //     resetGame()
+        //     document.removeEventListener("keyup", handleRestartOption, ("enter"))
+        // }
     }
 
     function resetGame() {
