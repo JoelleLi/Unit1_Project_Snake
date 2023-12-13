@@ -2,19 +2,11 @@ function init() {
     
     let gamePaused = false
 
-    document.addEventListener("keyup", function (event) {
-        if (event.code === "Space") {
-            togglePause()
-        } else {
-            updateCatDirection(event)
-        }
-    })
-
     function togglePause() {
         gamePaused = !gamePaused
         const pauseMessage = document.getElementById("gamePaused")
 
-        if (gamePaused) {
+        if (!collision && gamePaused) {
             clearInterval(gameLoop)
             console.log("game paused")
             pauseMessage.innerText = "game paused"     
@@ -99,33 +91,41 @@ function init() {
     document.addEventListener("keyup", updateCatDirection)
     function updateCatDirection(event) {
         // event.stopPropagation()        
-        const key = event.keyCode;
-        const up = 38;
-        const down = 40;
-        const left = 37;
-        const right = 39;
+        const key = event.keyCode
+        const up = 38
+        const down = 40
+        const left = 37
+        const right = 39
+        const space = 32
     
         switch (key) {
             case up:
                 if (currentDirection !== width) {
                     currentDirection = -width
                 } console.log("up")
-                break;
+                break
             case down:
                 if (currentDirection !== -width) {
                     currentDirection = width
                 } console.log("down")
-                break;
+                break
             case left:
                 if (currentDirection !== 1) {
                     currentDirection = -1
                 } console.log("left")
-                break;
+                break
             case right:
                 if (currentDirection !== -1) {
                 currentDirection = 1 
                 } console.log("right")
-                break;
+                break
+            case space:
+                if (event.code === "Space") {
+                    togglePause()
+                } else {
+                    updateCatDirection(event)
+                }
+                break
             default:
                 console.log("INVALID KEY");
         }        
@@ -168,7 +168,6 @@ function init() {
         blipSound.play()
     }
 
-    // setInterval(updateFoodPosition, 10)
     function updateFoodPosition() {
         if (cellsIndex[currentPosition].classList.contains("food")) {
             caterpillar.push(caterpillar.length)
@@ -229,7 +228,6 @@ function init() {
                 renderMessage()
             }
         }
-        
     }
 
     let highScore = 0
@@ -253,15 +251,9 @@ function init() {
         if (collision === true) {
             console.log("GAME OVER")
             clearInterval(gameLoop)
-
-            // const restartMessage = document.createElement("div")
-            // restartMessage.classList.add("gameOver") 
-            // restartMessage.innerHTML = "<h2>game over!</br>press enter to play again</h2>"     
-            // document.body.appendChild(restartMessage)
             const restartMessage = document.getElementById("gameover")
-            restartMessage.innerHTML = "<h4>game over!<br>press enter<br>to play again</h4>"
+            restartMessage.innerHTML = "<h3>game over!<br>press enter<br>to play again</h3>"
             cellsIndex[caterpillar[0]].classList.remove("catHead")
-
 
             document.addEventListener("keyup", handleRestartOption)
             console.log("renderMessage")
