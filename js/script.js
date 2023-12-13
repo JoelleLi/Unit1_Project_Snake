@@ -89,7 +89,7 @@ function init() {
     function changeGameLoop(){
         clearInterval(gameLoop)
         const increasedSpeed = intervalDuration * reduceIntervalDuration
-        newIntervalDuration = Math.max(increasedSpeed, 50)
+        newIntervalDuration = Math.floor(Math.max(increasedSpeed, 50))
         console.log("speed = " + newIntervalDuration)
 
         intervalDuration = newIntervalDuration
@@ -128,8 +128,7 @@ function init() {
                 break;
             default:
                 console.log("INVALID KEY");
-        }
-        
+        }        
     }
     // function updateCatDirection(event) {
     //     const key = event.keyCode
