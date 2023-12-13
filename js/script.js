@@ -3,7 +3,6 @@ function init() {
     let gamePaused = false
 
     document.addEventListener("keyup", function (event) {
-
         if (event.code === "Space") {
             togglePause()
         } else {
@@ -46,34 +45,25 @@ function init() {
     // Create grid
     const grid = document.querySelector(".grid")
     function createGrid() {
-        //Use the cellcount to create our grid cells
         for (let i = 0; i < cellCount; i++) {
-            // const cell = document.getElementsByClassName("grid")
             const cell = document.createElement("div")
-            // Creates 100 divs first
-            // Assign index to div element 1-100
             // cell.innerText = i
             // can also do cell.dataset.cellid = i
             cell.id = i 
             // Add the height and width to each grid cell using JS
             cell.style.height = `${100 / height}`
             cell.style.width = `${100 / width}`
-            // Add cell to grid
             grid.appendChild(cell)
             // Add newly created div cell to cells array
             cellsIndex.push(cell)
-            // const cell = document.getElementsByClassName("grid")
         }
-        // Add cat class to starting position of cell
         addFood()
         render()
     }
     createGrid()
 
-
     function addCat () {
-        document.querySelectorAll('.grid > div').forEach(cell => cell.classList.remove("cat"))
-        document.querySelectorAll('.grid > div').forEach(cell => cell.classList.remove("catHead")) 
+        document.querySelectorAll('.grid > div').forEach(cell => cell.classList.remove("cat", "catHead"))
         //clears the grid before moving the caterpillar
         for (let i = 0; i < caterpillar.length; i++){
             cellsIndex[caterpillar[i]].classList.add("cat")
@@ -106,27 +96,60 @@ function init() {
         gameLoop = setInterval(render, intervalDuration)
     }
 
-    document.addEventListener("keydown", updateCatDirection)
-    
+    document.addEventListener("keyup", updateCatDirection)
     function updateCatDirection(event) {
-        const key = event.keyCode
-        const up = 38
-        const down = 40
-        const left = 37
-        const right = 39
-        // removeCat() // Remove caterpillar BEFORE current position is updated
-         if (key === up && currentDirection !== width) {
-            currentDirection = -width
-        } else if (key === down && currentDirection !== -width) {
-            currentDirection = width
-        } else if (key === left && currentDirection !== +1) {
-            currentDirection = -1
-        } else if (key === right && currentDirection !== -1) {
-            currentDirection = 1
-        } else {
-            console.log("INVALID KEY")
+        // event.stopPropagation()        
+        const key = event.keyCode;
+        const up = 38;
+        const down = 40;
+        const left = 37;
+        const right = 39;
+    
+        switch (key) {
+            case up:
+                if (currentDirection !== width) {
+                    currentDirection = -width
+                } console.log("up")
+                break;
+            case down:
+                if (currentDirection !== -width) {
+                    currentDirection = width
+                } console.log("down")
+                break;
+            case left:
+                if (currentDirection !== 1) {
+                    currentDirection = -1
+                } console.log("left")
+                break;
+            case right:
+                if (currentDirection !== -1) {
+                currentDirection = 1 
+                } console.log("right")
+                break;
+            default:
+                console.log("INVALID KEY");
         }
+        
     }
+    // function updateCatDirection(event) {
+    //     const key = event.keyCode
+    //     const up = 38
+    //     const down = 40
+    //     const left = 37
+    //     const right = 39
+
+    //      if (key === up && currentDirection !== width){
+    //         currentDirection = -width
+    //     } else if (key === down && currentDirection !== -width) {
+    //         currentDirection = width
+    //     } else if (key === left && currentDirection !== +1) {
+    //         currentDirection = -1
+    //     } else if (key === right && currentDirection !== -1) {
+    //         currentDirection = 1
+    //     } else {
+    //         console.log("INVALID KEY")
+    //     }
+    // }
 
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
@@ -191,17 +214,16 @@ function init() {
         if (catHead + currentDirection < 0 || // caterpillar's head is above the top boundary
             catHead + currentDirection >= cellCount || // caterpillar's head is below the bottom boundary
             catHead % width === 0 && currentDirection === -1|| // caterpillar's head is on the left edge
-            (catHead + 1) % width === 0 && currentDirection === 1 || // caterpillar's head is on the right edge
-            cellsIndex[catHead + currentDirection].classList.contains("cat")) {
+            (catHead + 1) % width === 0 && currentDirection === 1) {// caterpillar's head is on the right edge
                 console.log("collision with walls")
                 collision = true        
                 collisionSound.play()
                 renderMessage()
+                catHead.classList.remove("catHead")
             }
         // Check if the cat's head collides with its own body
         for (let i = 1; i < caterpillar.length; i++) {
-            if (catHead === caterpillar[i]) {
-
+            if (catHead === caterpillar[i] && catHead !== caterpillar[1]) {
                 console.log("collision with body")
                 collision = true
                 collisionSound.play()
@@ -233,10 +255,15 @@ function init() {
             console.log("GAME OVER")
             clearInterval(gameLoop)
 
-            const restartMessage = document.createElement("div")
-            restartMessage.classList.add("gameOver") 
-            restartMessage.innerHTML = "<h2>game over!</br>press enter to play again</h2>"     
-            document.body.appendChild(restartMessage)
+            // const restartMessage = document.createElement("div")
+            // restartMessage.classList.add("gameOver") 
+            // restartMessage.innerHTML = "<h2>game over!</br>press enter to play again</h2>"     
+            // document.body.appendChild(restartMessage)
+            const restartMessage = document.getElementById("gameover")
+            restartMessage.innerHTML = "<h4>game over!<br>press enter<br>to play again</h4>"
+            cellsIndex[caterpillar[0]].classList.remove("catHead")
+
+
             document.addEventListener("keyup", handleRestartOption)
             console.log("renderMessage")
         }   
@@ -267,9 +294,11 @@ function init() {
         intervalDuration = startingIntervalDuration
         document.getElementById("score").innerText = `score : ${currentScore}`
 
-        const restartMessage = document.querySelector(".gameOver")
+        // const restartMessage = document.querySelector(".gameOver")
+        const restartMessage = document.getElementById("gameover")
         if (restartMessage) {
-            document.body.removeChild(restartMessage)
+            // document.body.removeChild(restartMessage)
+            restartMessage.innerText = ""
         }
 
         cellsIndex.forEach((cell) => cell.classList.remove("cat", "catHead", "food"))

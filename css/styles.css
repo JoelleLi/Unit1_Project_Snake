@@ -3,48 +3,75 @@
 }
 
 body {
+  align-content: space-evenly;
+  align-items: center;
   background-color: beige;
   color: rgba(233, 127, 182, 0.8);
   display: flex;
   flex-direction: column;
   font-family: rubik bubbles;
-  margin: auto;
   height: 100vh;
+  justify-content: center;
+  margin: auto;
+}
+
+.game-wrapper {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 500px;
+  margin: 10px;
+  min-width: min-content;
+  width: 850px;
+}
+
+.firstcolumn {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  margin: auto;
+}
+
+#highscore {
+  border: 2px solid rgba(233, 127, 182, 0.8);
+  box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
+  grid-row: 1;
+  padding: 10px;
+  width: 210px;
+}
+
+#score {
+  grid-row: 3;
+  text-align: center;
+}
+
+#gamePaused {
+  grid-row: 5;
+  text-align: center;
+}
+
+#gameover {
+  text-align: center;
+  grid-row: 7 / 9;
 }
 
 .heading {
   align-items: center; 
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  justify-content: space-between;
-  margin: auto;
+  display: flex;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr; */
+  justify-content: space;
+  margin: 40px;
 }
 
 #header {
   grid-column: 5 
 }
 
-#score {
-  color: rgba(233, 127, 182, 0.8);
-  grid-column: 3;
-  text-align: center;
-}
-
-#gamePaused {
-  color: rgba(233, 127, 182, 0.8);
-  justify-content: center;
-  text-align: center;
-}
-
-#highscore {
-  text-align: center;
-  color: rgba(233, 127, 182, 0.8);
-}
-
 .grid-wrapper {
   align-items: center;
-  height: 70vh;
+  /* width: 70vh; */
   display: flex;
   justify-content: center;
   margin: auto;
@@ -72,33 +99,30 @@ body {
 }
   
 .grid div.cat {
-  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/caterpillarbody.png');
+  background-image: url('../images/caterpillarbody.png');
   background-repeat: no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
 .grid div.catHead {
-  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/caterpillarhead.png');
+  background-image: url('../images/caterpillarhead.png');
   /* background-repeat: no-repeat;
   background-size: contain; */
 }
 
 .grid div.food {
-  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/pinkcircle.png');
+  background-image: url('../images/leaf.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 #catHead {
-  background-image: url('/Users/joelleli-cho/code/Unit1_Project_Snake/images/cathead01.png');
+  background-image: url('../images/cathead01.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-.gameOver {
-  text-align: center;
-  color: rgba(233, 127, 182, 0.8);
-}
+
 
   
