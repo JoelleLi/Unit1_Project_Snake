@@ -4,16 +4,16 @@ function init() {
 
     function togglePause() {
         gamePaused = !gamePaused
-        const pauseMessage = document.getElementById("gamePaused")
+        const gridMessage = document.getElementById("gridMessage")
 
         if (!collision && gamePaused) {
             clearInterval(gameLoop)
             console.log("game paused")
-            pauseMessage.innerText = "game paused"     
+            gridMessage.innerText = "game paused"     
         } else {
             gameLoop = setInterval(render, intervalDuration)
             console.log("game unpaused")
-            pauseMessage.innerText = "keep munching!"
+            gridMessage.innerText = ""
         }
     }
 
@@ -33,6 +33,7 @@ function init() {
     let foodPosition = 0
     let caterpillar = [242, 241, 240]
     let collision = false
+    let gameOver = false
 
     // Create grid
     const grid = document.querySelector(".grid")
@@ -120,7 +121,7 @@ function init() {
                 } console.log("right")
                 break
             case space:
-                if (event.code === "Space") {
+                if (event.code === "Space" && !gameOver) {
                     togglePause()
                 } else {
                     updateCatDirection(event)
@@ -218,6 +219,8 @@ function init() {
                 collisionSound.play()
                 renderMessage()
                 catHead.classList.remove("catHead")
+            } else {
+                gameOver = false
             }
         // Check if the cat's head collides with its own body
         for (let i = 1; i < caterpillar.length; i++) {
@@ -226,6 +229,8 @@ function init() {
                 collision = true
                 collisionSound.play()
                 renderMessage()
+            } else {
+                gameOver = false
             }
         }
     }
@@ -249,10 +254,11 @@ function init() {
 
     function renderMessage() {
         if (collision === true) {
+            gameOver = true
             console.log("GAME OVER")
             clearInterval(gameLoop)
-            const restartMessage = document.getElementById("gameover")
-            restartMessage.innerHTML = "<h3>game over!<br>press enter<br>to play again</h3>"
+            const gridMessage = document.getElementById("gridMessage")
+            gridMessage.innerHTML = "<h3>game over!<br>press enter<br>to play again</h3>"
             cellsIndex[caterpillar[0]].classList.remove("catHead")
 
             document.addEventListener("keyup", handleRestartOption)
@@ -285,11 +291,9 @@ function init() {
         intervalDuration = startingIntervalDuration
         document.getElementById("score").innerText = `score : ${currentScore}`
 
-        // const restartMessage = document.querySelector(".gameOver")
-        const restartMessage = document.getElementById("gameover")
-        if (restartMessage) {
-            // document.body.removeChild(restartMessage)
-            restartMessage.innerText = ""
+        const gridMessage = document.getElementById("gridMessage")
+        if (gridMessage) {
+            gridMessage.innerText = ""
         }
 
         cellsIndex.forEach((cell) => cell.classList.remove("cat", "catHead", "food"))

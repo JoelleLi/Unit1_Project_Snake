@@ -2,37 +2,14 @@
   box-sizing: border-box;
 }
 
-/* .container {
-  width: 150px;
-  height: 150px;
-  position: relative;
-  margin: 30px;
-}
-
-.box {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.7;
-  background: #0057e3;
-}
-
-.overlay {
-  z-index: 9;
-  margin: 30px;
-  background: #009938;
-} */
-
 body {
-align-content: space-evenly;
-color: rgba(233, 127, 182, 0.8);
-display: flex;
-font-family: rubik bubbles;
-height: 100vh;
-justify-content: center;
-margin: auto;
+  align-content: space-evenly;
+  color: rgba(233, 127, 182, 0.8);
+  display: flex;
+  font-family: rubik bubbles;
+  height: 100vh;
+  justify-content: center;
+  margin: auto;
 }
 
 .firstSection {
@@ -49,57 +26,60 @@ margin: auto;
   margin: 40px;
 }
 
-/* #title01, #title03, #title05, #title07, #title09, #title11 {
-  animation: wiggle 2s;
-}
-
-#title02, #title04, #title06, #title08, #title10 {
-  animation: wiggle 3s;
-} */
-
 #title01 {
   animation: wiggle 2s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title02 {
   animation: wiggle 3s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title03 {
   animation: wiggle 4s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title04 {
   animation: wiggle 5s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title05 {
   animation: wiggle 6s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title06 {
   animation: wiggle 7s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 #title07 {
   animation: wiggle 8s;
   animation-iteration-count: infinite;
+  width: 20px;
 }
 #title08 {
   animation: wiggle 9s;
   animation-iteration-count: infinite;
+  width: 20px;
 }
 #title09 {
   animation: wiggle 10s;
   animation-iteration-count: infinite;
+  width: 20px;
 }
 #title10 {
   animation: wiggle 11s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: infinite;  
+  width: 30px;
 }
 #title11 {
   animation: wiggle 12s;
   animation-iteration-count: infinite;
+  width: 30px;
 }
 
 @keyframes wiggle {
@@ -131,7 +111,9 @@ border: 2px solid rgba(233, 127, 182, 0.8);
 border-radius: 50px;
 box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
 grid-row: 1;
+margin-bottom: 40px;
 padding: 5px 15px 5px 15px;
+text-align: center;
 width: 210px;
 }
 
@@ -139,11 +121,7 @@ width: 210px;
 text-align: center;
 }
 
-#gamePaused {
-text-align: center;
-}
-
-#gameover {
+#gridMessage {
   color: hotpink;
   position: relative;
   text-align: center;
@@ -208,7 +186,7 @@ background-size: contain;
 
 
 
-@media only screen and (min-width: 820px) {
+@media only screen and (min-width: 900px) {
 .grid {
   box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
   display: flex;
@@ -243,36 +221,30 @@ width: 850px;
   flex-direction: row;
 }
 
-
 .firstcolumn {
 align-items: center;
-display: grid;
-grid-template-columns: 1fr;
-grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+display: flex;
 margin: auto;
 }
 
 #highscore {
+align-items: center;
 border: 2px solid rgba(233, 127, 182, 0.8);
 box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
-grid-row: 1;
 padding: 10px;
 width: 210px;
 }
 
 #score {
-grid-row: 3;
 text-align: center;
 }
 
 #gamePaused {
-grid-row: 5;
 text-align: center;
 }
 
 #gameover {
 text-align: center;
-grid-row: 7 / 9;
 }
 
 .heading {
@@ -281,6 +253,62 @@ display: flex;
 flex-direction: column;
 justify-content: space;
 margin: 40px;
+}
+
+#title01 {
+  animation: wiggle 2s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title02 {
+  animation: wiggle 3s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title03 {
+  animation: wiggle 4s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title04 {
+  animation: wiggle 5s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title05 {
+  animation: wiggle 6s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title06 {
+  animation: wiggle 7s;
+  animation-iteration-count: infinite;
+  width: 50px;
+}
+#title07 {
+  animation: wiggle 8s;
+  animation-iteration-count: infinite;
+  width: 35px;
+}
+#title08 {
+  animation: wiggle 9s;
+  animation-iteration-count: infinite;
+  width: 30px;
+}
+#title09 {
+  animation: wiggle 10s;
+  animation-iteration-count: infinite;
+  width: 30px;
+}
+#title10 {
+  animation: wiggle 11s;
+  animation-iteration-count: infinite;  
+  width: 50px;
+}
+#title11 {
+  animation: wiggle 12s;
+  animation-iteration-count: infinite;
+  width: 50px;
 }
 
 #header {
