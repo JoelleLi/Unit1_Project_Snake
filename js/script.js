@@ -4,25 +4,21 @@ function init() {
     let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
     let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
 
-    // Store the original volume
     const originalVolume = 1.0;
     blipSound.volume = originalVolume;
     collisionSound.volume = originalVolume;
 
-    const muteButton = document.getElementById("mute") // Update "muteButton" with the actual ID of your mute button
+    const muteButton = document.getElementById("muteButton")
     muteButton.addEventListener("click", toggleMute)
     muteButton.addEventListener("touchstart", toggleMute)
 
-
     function toggleMute() {
         isMuted = !isMuted
+        event.preventDefault()
       
-        // Update volume based on mute status
         blipSound.volume = isMuted ? 0 : originalVolume
         collisionSound.volume = isMuted ? 0 : originalVolume
       
-        // Update UI or perform other actions based on mute status if needed
-        const muteButton = document.getElementById("mute") // Update "muteButton" with the actual ID of your mute button
         muteButton.innerText = isMuted ? "UNMUTE" : "MUTE"
     }
 
@@ -31,15 +27,18 @@ function init() {
     function togglePause() {
         gamePaused = !gamePaused
         const gridMessage = document.getElementById("gridMessage")
+        const pauseNote = document.getElementById("pauseNote")
 
         if (!gameOver && gamePaused === true) {
             clearInterval(gameLoop)
             console.log("game paused")
-            gridMessage.innerText = "game paused"     
+            gridMessage.innerText = "game paused"
+            pauseNote.innerHTML = "press spacebar<br>to unpause"     
         } else {
             gameLoop = setInterval(render, intervalDuration)
             console.log("game unpaused")
             gridMessage.innerText = ""
+            pauseNote.innerHTML = "press spacebar<br>to pause"     
         }
     }
 
@@ -54,8 +53,11 @@ function init() {
     let currentPosition = startingPosition
     let newPosition = 0
     let startingFoodPosition = 0
+    let randomApplePosition = 0
+    let isThereRandomApple = 0
+    let randomApple
     let currentScore = 0
-    let currentDirection = 1
+    let currentDirection = +1
     let foodPosition = 0
     let caterpillar = [242, 241, 240]
     let collision = false
@@ -85,9 +87,11 @@ function init() {
         document.querySelectorAll('.grid > div').forEach(cell => cell.classList.remove("cat", "catHead"))
         //clears the grid before moving the caterpillar
         for (let i = 0; i < caterpillar.length; i++){
+
             cellsIndex[caterpillar[i]].classList.add("cat")
             cellsIndex[caterpillar[0]].classList.add("catHead")
             }
+
     }
     // put caterpillar in starting position on board
     addCat()
@@ -96,7 +100,6 @@ function init() {
     const reduceIntervalDuration = 0.95
     let intervalDuration = startingIntervalDuration
     let newIntervalDuration = 0
-
     let gameLoop = setInterval(render, intervalDuration)
 
     function render(){
@@ -133,67 +136,6 @@ function init() {
     rightButton.addEventListener("touchstart", () => updateCatDirection("right"))
 
     document.addEventListener("keyup", updateCatDirection)
-    // function updateCatDirection(event) {
-    //     // event.stopPropagation()        
-    //     const key = event.keyCode
-    //     const up = 38
-    //     const down = 40
-    //     const left = 37
-    //     const right = 39
-    //     const space = 32
-    
-    //     switch (key) {
-    //         case up :
-    //             if (currentDirection !== width) {
-    //                 currentDirection = -width
-    //             } console.log("up")
-    //             break
-    //         case down:
-    //             if (currentDirection !== -width) {
-    //                 currentDirection = width
-    //             } console.log("down")
-    //             break
-    //         case left:
-    //             if (currentDirection !== 1) {
-    //                 currentDirection = -1
-    //             } console.log("left")
-    //             break
-    //         case right:
-    //             if (currentDirection !== -1) {
-    //             currentDirection = 1 
-    //             } console.log("right")
-    //             break
-    //         case space:
-    //             if (event.code === "Space" && !gameOver) {
-    //                 togglePause()
-    //             } else {
-    //                 updateCatDirection(event)
-    //             }
-    //             break
-    //         default:
-    //             console.log("INVALID KEY");
-    //     }        
-    // }
-
-    // function updateCatDirection(event) {
-    //     const key = event.keyCode
-    //     const up = 38
-    //     const down = 40
-    //     const left = 37
-    //     const right = 39
-
-    //      if (key === up && currentDirection !== width){
-    //         currentDirection = -width
-    //     } else if (key === down && currentDirection !== -width) {
-    //         currentDirection = width
-    //     } else if (key === left && currentDirection !== +1) {
-    //         currentDirection = -1
-    //     } else if (key === right && currentDirection !== -1) {
-    //         currentDirection = 1
-    //     } else {
-    //         console.log("INVALID KEY")
-    //     }
-    // }
 
     function updateCatDirection(event) {
     let key;
@@ -233,22 +175,22 @@ function init() {
         case up :
             if (currentDirection !== width) {
                 currentDirection = -width
-            } console.log("up")
+            }
             break
         case down:
             if (currentDirection !== -width) {
             currentDirection = width
-            } console.log("down")
+            }
             break
         case left:
             if (currentDirection !== 1) {
             currentDirection = -1
-            } console.log("left")
+            }
             break
         case right:
             if (currentDirection !== -1) {
             currentDirection = 1 
-            } console.log("right")
+            }
             break
          case space:
             if (event.code === "Space" && !gameOver) {
@@ -269,7 +211,6 @@ function init() {
             console.log("oops, not where the caterpillar is!")
             startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
         }
-        console.log("food position ok")
         cellsIndex[startingFoodPosition].classList.add("food")
         foodPosition = startingFoodPosition
     }
@@ -278,13 +219,46 @@ function init() {
         cellsIndex[foodPosition].classList.remove("food")
         // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
         blipSound.play()
+        checkIsThereRandomApple()
     }
+
+    function checkIsThereRandomApple() {
+        isThereRandomApple = Math.floor(Math.random() * 10)
+        if (isThereRandomApple % 2 === 0) {
+            console.log(isThereRandomApple)
+            addRandomApple()
+        } else {
+            console.log("no apple this time :(")
+        }
+    }
+
+    function addRandomApple() {
+        randomApple = true
+        randomApplePosition = Math.floor(Math.random()*cellsIndex.length)
+        while ((randomApple === true) && (randomApplePosition === foodPosition) && (caterpillar.includes(randomApplePosition))) {
+            console.log("oops, don't put an apple there")
+        }
+        console.log("apple position okay")
+        cellsIndex[randomApplePosition].classList.add("apple")
+    } 
+
+    function removeRandomApple() {
+        cellsIndex[randomApplePosition].classList.remove("apple")
+        randomApple = false
+        // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
+        blipSound.play()
+    }
+
 
     function updateFoodPosition() {
         if (cellsIndex[currentPosition].classList.contains("food")) {
             caterpillar.push(caterpillar.length)
             removeFood()
             addFood()
+            updatePoints()
+        } else if (cellsIndex[currentPosition].classList.contains("apple")) {
+            removeRandomApple()
+            checkIsThereRandomApple()
             updatePoints()
         }
     }
@@ -294,6 +268,7 @@ function init() {
     }
 
     function updateCatPosition() {
+        cellsIndex.forEach((cell) => cell.style.transform = "rotate(0deg)")
 
         if (currentDirection === -width) { // up
             removeCat()
@@ -315,6 +290,22 @@ function init() {
             (cellsIndex[cell].classList.add("cat"))
         }) // makes caterpillar visible
         cellsIndex[caterpillar[0]].classList.add("catHead")
+
+        rotateCatHead()
+    }
+
+    function rotateCatHead() {
+        if (currentDirection === -width) {
+            cellsIndex[caterpillar[0]].style.transform = "rotate(-180deg)";
+        } else if (currentDirection === width) {        
+            cellsIndex[caterpillar[0]].style.transform = "none";
+        } else if (currentDirection === 1) {
+            cellsIndex[caterpillar[0]].style.transform = "rotate(-90deg)";
+        } else if (currentDirection === -1) {
+            cellsIndex[caterpillar[0]].style.transform = "rotate(90deg)";
+        } else {
+            return
+        }
     }
 
     function checkIfCollision() {
@@ -384,7 +375,9 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        if (event.type === "click" || key === restartKey) {
+        if (!gameOver) {
+            return
+        } else if (event.type === "click" || key === restartKey) {
             console.log("Reset Game")
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
