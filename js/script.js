@@ -97,7 +97,7 @@ function init() {
             }
     }
 
-    /*---------- Game Loop ----------*/
+    /*---------- Game Loop & Speed ----------*/
 
     let startingIntervalDuration = 400
     const reduceIntervalDuration = 0.95
@@ -114,9 +114,9 @@ function init() {
     function changeGameLoop(){
         clearInterval(gameLoop)
         const increasedSpeed = intervalDuration * reduceIntervalDuration
-        newIntervalDuration = Math.floor(Math.max(increasedSpeed, 50))
-        console.log("speed = " + newIntervalDuration)
+        newIntervalDuration = Math.floor(Math.max(increasedSpeed, 80))
 
+        console.log("speed = " + newIntervalDuration)
         intervalDuration = newIntervalDuration
         gameLoop = setInterval(render, intervalDuration)
     }
@@ -222,7 +222,6 @@ function init() {
 
     function removeFood() {
         cellsIndex[foodPosition].classList.remove("food")
-        // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
         blipSound.play()
         // checkIsThereRandomApple()
     }
