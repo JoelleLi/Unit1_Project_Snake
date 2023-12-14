@@ -1,8 +1,10 @@
 function init() {
 
+    /*---------- Audio ----------*/
+    
     let isMuted = false
-    let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
-    let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
+    let blipSound = new Audio("https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3")
+    let collisionSound = new Audio("https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg")
 
     const originalVolume = 1.0;
     blipSound.volume = originalVolume;
@@ -20,7 +22,10 @@ function init() {
         collisionSound.volume = isMuted ? 0 : originalVolume
       
         muteButton.innerText = isMuted ? "UNMUTE" : "MUTE"
+        this.blur()
     }
+
+    /*---------- Pause Function ----------*/
 
     let gamePaused = false
 
@@ -42,14 +47,14 @@ function init() {
         }
     }
 
-    // Board configuration
+    /*---------- Board Configuration ----------*/
+
     const width = 20
     const height = 20
     const cellCount = width * height
     let cellsIndex = []
 
     const startingPosition = 242
-
     let currentPosition = startingPosition
     let newPosition = 0
     let startingFoodPosition = 0
@@ -61,14 +66,13 @@ function init() {
     let foodPosition = 0
     let caterpillar = [242, 241, 240]
     let collision = false
+    let highScore = 0
     let gameOver = false
 
-    // Create grid
     const grid = document.querySelector(".grid")
     function createGrid() {
         for (let i = 0; i < cellCount; i++) {
             const cell = document.createElement("div")
-            // cell.innerText = i
             // can also do cell.dataset.cellid = i
             cell.id = i 
             // Add the height and width to each grid cell using JS
@@ -82,19 +86,18 @@ function init() {
         render()
     }
     createGrid()
+    addCat()
 
     function addCat () {
         document.querySelectorAll('.grid > div').forEach(cell => cell.classList.remove("cat", "catHead"))
         //clears the grid before moving the caterpillar
         for (let i = 0; i < caterpillar.length; i++){
-
             cellsIndex[caterpillar[i]].classList.add("cat")
             cellsIndex[caterpillar[0]].classList.add("catHead")
             }
-
     }
-    // put caterpillar in starting position on board
-    addCat()
+
+    /*---------- Game Loop ----------*/
 
     let startingIntervalDuration = 400
     const reduceIntervalDuration = 0.95
@@ -118,12 +121,12 @@ function init() {
         gameLoop = setInterval(render, intervalDuration)
     }
 
+    /*---------- Key Controls ----------*/
+
     const upButton = document.querySelector("#upButton")
     const downButton = document.querySelector("#downButton")
     const leftButton = document.querySelector("#leftButton")
     const rightButton = document.querySelector("#rightButton")
-    const pauseButton = document.querySelector("#pauseButton")
-
 
     upButton.addEventListener("click", () => updateCatDirection("up"))
     downButton.addEventListener("click", () => updateCatDirection("down"))
@@ -204,6 +207,8 @@ function init() {
         }        
     }
 
+    /*---------- Food Item Events ----------*/
+
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
         
@@ -219,36 +224,34 @@ function init() {
         cellsIndex[foodPosition].classList.remove("food")
         // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
         blipSound.play()
-        checkIsThereRandomApple()
+        // checkIsThereRandomApple()
     }
 
-    function checkIsThereRandomApple() {
-        isThereRandomApple = Math.floor(Math.random() * 10)
-        if (isThereRandomApple % 2 === 0) {
-            console.log(isThereRandomApple)
-            addRandomApple()
-        } else {
-            console.log("no apple this time :(")
-        }
-    }
+    // function checkIsThereRandomApple() {
+    //     if (!randomApple) {
+    //         isThereRandomApple = Math.floor(Math.random() * 10)
+    //         if (isThereRandomApple % 1 === 0) {
+    //             addRandomApple()
+    //         } else {
+    //             console.log("no apple this time :(")
+    //         }
+    //     }
+    // }
 
-    function addRandomApple() {
-        randomApple = true
-        randomApplePosition = Math.floor(Math.random()*cellsIndex.length)
-        while ((randomApple === true) && (randomApplePosition === foodPosition) && (caterpillar.includes(randomApplePosition))) {
-            console.log("oops, don't put an apple there")
-        }
-        console.log("apple position okay")
-        cellsIndex[randomApplePosition].classList.add("apple")
-    } 
+    // function addRandomApple() {
+    //     randomApple = true
+    //     randomApplePosition = Math.floor(Math.random()*cellsIndex.length)
+    //     while (caterpillar.includes(randomApplePosition)) {
+    //         console.log("oops, not where the caterpillar is!")
+    //     } 
+    //     cellsIndex[randomApplePosition].classList.add("apple")
+    // } 
 
-    function removeRandomApple() {
-        cellsIndex[randomApplePosition].classList.remove("apple")
-        randomApple = false
-        // let blipSound = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3')
-        blipSound.play()
-    }
-
+    // function removeRandomApple() {
+    //     cellsIndex[randomApplePosition].classList.remove("apple")
+    //     randomApple = false
+    //     blipSound.play()
+    // }
 
     function updateFoodPosition() {
         if (cellsIndex[currentPosition].classList.contains("food")) {
@@ -256,12 +259,20 @@ function init() {
             removeFood()
             addFood()
             updatePoints()
-        } else if (cellsIndex[currentPosition].classList.contains("apple")) {
-            removeRandomApple()
-            checkIsThereRandomApple()
-            updatePoints()
         }
+        return 
     }
+
+    // function updateApplePosition() {
+    //     if (cellsIndex[currentPosition].classList.contains("apple")) {
+    //         caterpillar.push(caterpillar.length)
+    //         removeRandomApple()
+    //         checkIsThereRandomApple()
+    //         updatePointsIfAppleEaten()
+    //     }
+    // }
+
+    /*---------- Caterpillar Movement ----------*/
 
     function removeCat() {
         cellsIndex.forEach((cell) => cell.classList.remove("cat", "catHead"))
@@ -288,7 +299,7 @@ function init() {
         caterpillar.pop()
         caterpillar.forEach((cell) => {
             (cellsIndex[cell].classList.add("cat"))
-        }) // makes caterpillar visible
+        })
         cellsIndex[caterpillar[0]].classList.add("catHead")
 
         rotateCatHead()
@@ -310,8 +321,7 @@ function init() {
 
     function checkIfCollision() {
         const catHead = caterpillar[0]
-        // let collisionSound = new Audio('https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg')
-        // Check if caterpillar collides with walls
+        // Check if the cat's head collides with walls
         if (catHead + currentDirection < 0 || // caterpillar's head is above the top boundary
             catHead + currentDirection >= cellCount || // caterpillar's head is below the bottom boundary
             catHead % width === 0 && currentDirection === -1|| // caterpillar's head is on the left edge
@@ -337,7 +347,18 @@ function init() {
         }
     }
 
-    let highScore = 0
+    /*---------- Points System ----------*/
+
+    function updatePointsIfAppleEaten() {
+        currentScore = currentScore + 5
+        if (currentScore > highScore) {
+            highScore = currentScore
+            updateHighScore()
+        }
+        changeGameLoop()
+        document.getElementById("score").innerText = `score : ${currentScore}`
+        console.log("points: " + currentScore)
+    }
 
     function updatePoints() {
         currentScore++
@@ -353,6 +374,8 @@ function init() {
     function updateHighScore() {
         document.getElementById("highscore").innerText = `high score: ${highScore}`
     }
+
+    /*---------- Game Over Events ----------*/
 
     function renderMessage() {
         if (collision === true) {
@@ -378,19 +401,12 @@ function init() {
         if (!gameOver) {
             return
         } else if (event.type === "click" || key === restartKey) {
-            console.log("Reset Game")
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
             const gridMessage = document.getElementById("gridMessage")
             gridMessage.removeEventListener("click", handleRestartOption)
             gridMessage.removeEventListener("touchstart", handleRestartOption)
         }
-
-        // if (key === restartKey) {
-        //     console.log("reset game")
-        //     resetGame()
-        //     document.removeEventListener("keyup", handleRestartOption, ("enter"))
-        // }
     }
 
     function resetGame() {

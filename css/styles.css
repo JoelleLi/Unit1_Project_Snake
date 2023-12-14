@@ -11,6 +11,7 @@ body {
   height: 100vh;
   justify-content: center;
   margin: auto;
+  overflow: hidden;
 }
 
 .firstSection {
@@ -277,6 +278,7 @@ font-family: rubik bubbles;
 height: 100vh;
 justify-content: center;
 margin: auto;
+overflow: hidden
 }
 
 .game-wrapper {
@@ -320,8 +322,6 @@ grid-row: 4;
   display: block;
   grid-row: 5;
   margin: auto;
-  animation: wiggle 1s;
-  animation-iteration-count: infinite;
   width: 100px;
 }
 
