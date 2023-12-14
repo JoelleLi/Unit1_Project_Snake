@@ -28,6 +28,8 @@ function init() {
     /*---------- Pause Function ----------*/
 
     let gamePaused = false
+    let fruitAppearanceDuration = 9000
+    let randomFruitTimer
 
     function togglePause() {
         gamePaused = !gamePaused
@@ -39,11 +41,22 @@ function init() {
             console.log("game paused")
             gridMessage.innerText = "game paused"
             pauseNote.innerHTML = "press spacebar<br>to unpause"     
+            clearTimeout(randomFruitTimer);
         } else {
             gameLoop = setInterval(render, intervalDuration)
             console.log("game unpaused")
             gridMessage.innerText = ""
-            pauseNote.innerHTML = "press spacebar<br>to pause"     
+            pauseNote.innerHTML = "press spacebar<br>to pause"
+            // randomAppleTimer = setTimeout(() => {
+            //     removeRandomAppleIfNotEaten();
+            // }, appleAppearanceDuration);
+            randomFruitTimer = setTimeout(() => {
+                if (!randomFruit) {
+                    return
+                } else {
+                    removeRandomFruitIfNotEaten()
+            }
+        }, fruitAppearanceDuration)     
         }
     }
 
@@ -58,9 +71,6 @@ function init() {
     let currentPosition = startingPosition
     let newPosition = 0
     let startingFoodPosition = 0
-    let randomApplePosition = 0
-    let isThereRandomApple = 0
-    let randomApple
     let currentScore = 0
     let currentDirection = +1
     let foodPosition = 0
@@ -68,6 +78,8 @@ function init() {
     let collision = false
     let highScore = 0
     let gameOver = false
+    let randomFruitChoice
+
 
     const grid = document.querySelector(".grid")
     function createGrid() {
@@ -209,6 +221,31 @@ function init() {
 
     /*---------- Food Item Events ----------*/
 
+    // let randomFruit
+    let randomFruitPosition = 0
+    const randomFruitArray = ["blueberries", "banana", "apple", "cherries", "kiwi", "peach", "watermelon"]
+    let randomFruit = false
+    let isThereRandomFruit = 0
+    let caterpillarLogo = document.getElementById("caterpillarLogo")
+
+    function updateFoodPosition() {
+        if (cellsIndex[currentPosition].classList.contains("food")) {
+            caterpillar.push(caterpillar.length)
+            fruitAppearanceDuration = Math.floor(Math.max(fruitAppearanceDuration * 0.95, 2000))
+            removeFood()
+            addFood()
+            updatePoints()
+            generateRandomFruit()
+            blipSound.play()
+        } else if (cellsIndex[currentPosition].classList.contains(randomFruitChoice)) {
+            caterpillar.push(caterpillar.length)
+            removeRandomFruit()
+            updatePointsIfFruitEaten()
+            blipSound.play()
+        }
+        return 
+    }
+
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
         
@@ -222,54 +259,59 @@ function init() {
 
     function removeFood() {
         cellsIndex[foodPosition].classList.remove("food")
-        blipSound.play()
-        // checkIsThereRandomApple()
     }
 
-    // function checkIsThereRandomApple() {
-    //     if (!randomApple) {
-    //         isThereRandomApple = Math.floor(Math.random() * 10)
-    //         if (isThereRandomApple % 1 === 0) {
-    //             addRandomApple()
-    //         } else {
-    //             console.log("no apple this time :(")
-    //         }
-    //     }
-    // }
+    function generateRandomFruit() {
+        isThereRandomFruit = Math.floor(Math.random() * 10)
+        console.log(isThereRandomFruit)
+            if (isThereRandomFruit % 2 === 0 && randomFruit === false) {
+                addRandomFruit()
+            } else {
+                console.log("no fruit this time :(")
+            }
+    }
 
-    // function addRandomApple() {
-    //     randomApple = true
-    //     randomApplePosition = Math.floor(Math.random()*cellsIndex.length)
-    //     while (caterpillar.includes(randomApplePosition)) {
-    //         console.log("oops, not where the caterpillar is!")
-    //     } 
-    //     cellsIndex[randomApplePosition].classList.add("apple")
-    // } 
+    function addRandomFruit() {
+        randomFruitPosition = Math.floor(Math.random()*cellsIndex.length)
+        if (caterpillar.includes(randomFruitPosition)) {
+            console.log("oops, not where the caterpillar is!")
+        } else if (randomFruitPosition === startingFoodPosition) {
+            console.log("not where the food already is!")
+        } else {
+            randomFruitChoice = randomFruitArray[Math.floor(Math.random() * randomFruitArray.length)]
+            cellsIndex[randomFruitPosition].classList.add(randomFruitChoice)
+            caterpillarLogo.style.animation = "none"
+            randomFruit = true
+            console.log("fruit added")
 
-    // function removeRandomApple() {
-    //     cellsIndex[randomApplePosition].classList.remove("apple")
-    //     randomApple = false
-    //     blipSound.play()
-    // }
-
-    function updateFoodPosition() {
-        if (cellsIndex[currentPosition].classList.contains("food")) {
-            caterpillar.push(caterpillar.length)
-            removeFood()
-            addFood()
-            updatePoints()
+            randomFruitTimer = setTimeout(() => {
+                    if (!randomFruit) {
+                        return
+                    } else {
+                        removeRandomFruitIfNotEaten()
+                }
+            }, fruitAppearanceDuration)
         }
-        return 
+    } 
+
+    function removeRandomFruitIfNotEaten() {
+        if (!randomFruit) {
+            return
+        }
+        cellsIndex[randomFruitPosition].classList.remove(randomFruitChoice)
+        console.log("removeRandomFruitIfNotEaten")
+        clearTimeout(randomFruitTimer)
+        randomFruit = false
     }
 
-    // function updateApplePosition() {
-    //     if (cellsIndex[currentPosition].classList.contains("apple")) {
-    //         caterpillar.push(caterpillar.length)
-    //         removeRandomApple()
-    //         checkIsThereRandomApple()
-    //         updatePointsIfAppleEaten()
-    //     }
-    // }
+    function removeRandomFruit() {
+        cellsIndex[randomFruitPosition].classList.remove(randomFruitChoice)
+        clearTimeout(randomFruitTimer)
+        randomFruit = false
+        caterpillarLogo.style.animation = "wiggle 1s"
+
+        console.log(fruitAppearanceDuration)
+    }
 
     /*---------- Caterpillar Movement ----------*/
 
@@ -348,7 +390,7 @@ function init() {
 
     /*---------- Points System ----------*/
 
-    function updatePointsIfAppleEaten() {
+    function updatePointsIfFruitEaten() {
         currentScore = currentScore + 5
         if (currentScore > highScore) {
             highScore = currentScore
@@ -417,6 +459,9 @@ function init() {
         foodPosition = 0
         caterpillar = [242, 241, 240]
         collision = false
+        randomFruitPosition = 0
+        randomFruit = false
+        isThereRandomFruit = 0
 
         intervalDuration = startingIntervalDuration
         document.getElementById("score").innerText = `score : ${currentScore}`
@@ -426,7 +471,7 @@ function init() {
             gridMessage.innerText = ""
         }
 
-        cellsIndex.forEach((cell) => cell.classList.remove("cat", "catHead", "food"))
+        cellsIndex.forEach((cell) => cell.classList.remove("cat", "catHead", "food", randomFruitChoice))
 
         addCat()
         addFood()

@@ -191,11 +191,37 @@ background-size: contain;
   background-size: contain;
 }
 
-/* .catHead {
-background-image: url('../images/caterpillarHead01.png');
-background-repeat: no-repeat;
-background-size: contain;
-} */
+.grid div.blueberries {
+  background-image: url('../images/blueberries.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.grid div.banana {
+  background-image: url('../images/banana.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.grid div.cherries {
+  background-image: url('../images/cherries.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.grid div.kiwi {
+  background-image: url('../images/kiwi.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.grid div.peach {
+  background-image: url('../images/peach.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.grid div.watermelon {
+  background-image: url('../images/watermelon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 
 #buttonContainer {
   align-items: center;
@@ -235,11 +261,21 @@ button:hover {
   background-color: #45a049;
 }
 
-
 @media only screen and (min-width: 600px) {
 
   #buttonContainer {
     display: none;
+  }
+
+  #muteButton {
+    background-color: beige;
+    border-color: rgba(113, 152, 44);
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(233, 127, 182, 0.8);
+    color: rgba(161, 221, 61);
+    display: flex;
+    margin: auto;
+    padding: 5px;
   }
 
   .heading {
@@ -399,6 +435,17 @@ grid-row: 4;
   80% { transform: translate(-1px, -1px) rotate(1deg);}
   90% { transform: translate(1px, 2px) rotate(0deg);}
   100% { transform: translate(1px, -2px) rotate(-1deg);}
+}
+
+@keyframes rotate {
+  0% { transform: translate(20px, 20px) rotate(0deg);}
+  40% { transform: translate(20px, -20px) rotate(45deg);}
+  50% { transform: translate(-20px, 40px) rotate(-45deg);}
+  60% { transform: translate(-30px, 20px) rotate(0deg);}
+  70% { transform: translate(30px, 20px) rotate(-45deg);}
+  80% { transform: translate(-20px, -20px) rotate(45deg);}
+  90% { transform: translate(20px, 30px) rotate(0deg);}
+  100% { transform: translate(20px, -30px) rotate(-45deg);}
 }
 
 #pauseNote {
