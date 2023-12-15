@@ -22,7 +22,7 @@ function init() {
         collisionSound.volume = isMuted ? 0 : originalVolume
       
         muteButton.innerText = isMuted ? "UNMUTE" : "MUTE"
-        this.blur()
+        // this.blur()
     }
 
     /*---------- Pause Function ----------*/
@@ -47,9 +47,7 @@ function init() {
             console.log("game unpaused")
             gridMessage.innerText = ""
             pauseNote.innerHTML = "press spacebar<br>to pause"
-            // randomAppleTimer = setTimeout(() => {
-            //     removeRandomAppleIfNotEaten();
-            // }, appleAppearanceDuration);
+            
             randomFruitTimer = setTimeout(() => {
                 if (!randomFruit) {
                     return
@@ -300,6 +298,7 @@ function init() {
         }
         cellsIndex[randomFruitPosition].classList.remove(randomFruitChoice)
         console.log("removeRandomFruitIfNotEaten")
+        console.log(fruitAppearanceDuration)
         clearTimeout(randomFruitTimer)
         randomFruit = false
     }
@@ -368,7 +367,7 @@ function init() {
             catHead % width === 0 && currentDirection === -1|| // caterpillar's head is on the left edge
             (catHead + 1) % width === 0 && currentDirection === 1) {// caterpillar's head is on the right edge
                 console.log("collision with walls")
-                collision = true        
+                collision = true
                 collisionSound.play()
                 renderMessage()
                 catHead.classList.remove("catHead")
@@ -439,15 +438,17 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        if (!gameOver) {
-            return
-        } else if (event.type === "click" || key === restartKey) {
+        // if (!gameOver) {
+        //     return
+        // } else 
+        if (event.type === "click" || event.type === "touchstart" || key === restartKey) {
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
             const gridMessage = document.getElementById("gridMessage")
             gridMessage.removeEventListener("click", handleRestartOption)
             gridMessage.removeEventListener("touchstart", handleRestartOption)
         }
+        return
     }
 
     function resetGame() {
@@ -462,6 +463,7 @@ function init() {
         randomFruitPosition = 0
         randomFruit = false
         isThereRandomFruit = 0
+        fruitAppearanceDuration = 9000        
 
         intervalDuration = startingIntervalDuration
         document.getElementById("score").innerText = `score : ${currentScore}`
