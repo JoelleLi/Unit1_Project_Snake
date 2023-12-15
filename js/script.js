@@ -22,7 +22,7 @@ function init() {
         collisionSound.volume = isMuted ? 0 : originalVolume
       
         muteButton.innerText = isMuted ? "UNMUTE" : "MUTE"
-        // this.blur()
+        this.blur()
     }
 
     /*---------- Pause Function ----------*/
@@ -346,14 +346,14 @@ function init() {
     }
 
     function rotateCatHead() {
-        if (currentDirection === -width) {
+        if (currentDirection === -width) { // up
             cellsIndex[caterpillar[0]].style.transform = "rotate(-180deg)";
-        } else if (currentDirection === width) {        
+        } else if (currentDirection === width) { // down
             cellsIndex[caterpillar[0]].style.transform = "none";
-        } else if (currentDirection === 1) {
-            cellsIndex[caterpillar[0]].style.transform = "rotate(-90deg)";
-        } else if (currentDirection === -1) {
-            cellsIndex[caterpillar[0]].style.transform = "rotate(90deg)";
+        } else if (currentDirection === 1) { // right
+            cellsIndex[caterpillar[0]].style.transform = "none";
+        } else if (currentDirection === -1) { // right
+            cellsIndex[caterpillar[0]].style.transform = "none";
         } else {
             return
         }
@@ -395,7 +395,6 @@ function init() {
             highScore = currentScore
             updateHighScore()
         }
-        // changeGameLoop()
         document.getElementById("score").innerText = `score : ${currentScore}`
         console.log("points: " + currentScore)
     }
@@ -438,10 +437,7 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        // if (!gameOver) {
-        //     return
-        // } else 
-        if (event.type === "click" || event.type === "touchstart" || key === restartKey) {
+        if ((event.type === "click" || event.type === "touchstart" || key === restartKey) && (!gamePaused) && (gameOver === true)) {
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
             const gridMessage = document.getElementById("gridMessage")
