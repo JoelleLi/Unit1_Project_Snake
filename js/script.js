@@ -395,7 +395,7 @@ function init() {
             highScore = currentScore
             updateHighScore()
         }
-        changeGameLoop()
+        // changeGameLoop()
         document.getElementById("score").innerText = `score : ${currentScore}`
         console.log("points: " + currentScore)
     }
