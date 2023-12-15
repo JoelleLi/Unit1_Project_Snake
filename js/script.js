@@ -2,6 +2,9 @@ function init() {
 
     /*---------- Audio ----------*/
     
+    let randomFruitPosition = 0
+
+
     let isMuted = false
     let blipSound = new Audio("https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3")
     let collisionSound = new Audio("https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg")
@@ -109,7 +112,7 @@ function init() {
 
     /*---------- Game Loop & Speed ----------*/
 
-    let startingIntervalDuration = 400
+    let startingIntervalDuration = 350
     const reduceIntervalDuration = 0.95
     let intervalDuration = startingIntervalDuration
     let newIntervalDuration = 0
@@ -220,7 +223,6 @@ function init() {
     /*---------- Food Item Events ----------*/
 
     // let randomFruit
-    let randomFruitPosition = 0
     const randomFruitArray = ["blueberries", "banana", "apple", "cherries", "kiwi", "peach", "watermelon"]
     let randomFruit = false
     let isThereRandomFruit = 0
@@ -247,9 +249,10 @@ function init() {
     function addFood() {
         startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
         
-        while (caterpillar.includes(startingFoodPosition)) {
-            console.log("oops, not where the caterpillar is!")
+        while (caterpillar.includes(startingFoodPosition) || startingFoodPosition === randomFruitPosition) {
+            console.log("oops, don't put the food where the caterpillar is!")
             startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
+            addFood()
         }
         cellsIndex[startingFoodPosition].classList.add("food")
         foodPosition = startingFoodPosition
@@ -262,7 +265,7 @@ function init() {
     function generateRandomFruit() {
         isThereRandomFruit = Math.floor(Math.random() * 10)
         console.log(isThereRandomFruit)
-            if (isThereRandomFruit % 2 === 0 && randomFruit === false) {
+            if (isThereRandomFruit % 1 === 0 && randomFruit === false) {
                 addRandomFruit()
             } else {
                 console.log("no fruit this time :(")
@@ -272,7 +275,7 @@ function init() {
     function addRandomFruit() {
         randomFruitPosition = Math.floor(Math.random()*cellsIndex.length)
         if (caterpillar.includes(randomFruitPosition)) {
-            console.log("oops, not where the caterpillar is!")
+            console.log("oops, don't put the fruit where the caterpillar is!")
         } else if (randomFruitPosition === startingFoodPosition) {
             console.log("not where the food already is!")
         } else {
