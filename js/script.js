@@ -437,7 +437,7 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        if ((event.type === "click" || event.type === "touchstart" || key === restartKey) && (!gamePaused) && (gameOver === true)) {
+        if (event.type === "click" || event.type === "touchstart" || key === restartKey) {
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
             const gridMessage = document.getElementById("gridMessage")
@@ -478,3 +478,5 @@ function init() {
     }
 }
 window.addEventListener("DOMContentLoaded", init)
+
+// && (!gamePaused) && (gameOver === true
