@@ -247,11 +247,11 @@ function init() {
     }
 
     function addFood() {
-        startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
+        startingFoodPosition = Math.floor((Math.random() * cellCount))
         
         while (caterpillar.includes(startingFoodPosition) || startingFoodPosition === randomFruitPosition) {
             console.log("oops, don't put the food where the caterpillar is!")
-            startingFoodPosition = Math.floor((Math.random() * cellCount) + 1)
+            startingFoodPosition = Math.floor((Math.random() * cellCount))
             addFood()
         }
         cellsIndex[startingFoodPosition].classList.add("food")
@@ -374,12 +374,14 @@ function init() {
                 collisionSound.play()
                 renderMessage()
                 catHead.classList.remove("catHead")
+
             } else {
                 gameOver = false
             }
         // Check if the cat's head collides with its own body
         for (let i = 1; i < caterpillar.length; i++) {
-            if (catHead === caterpillar[i] && catHead !== caterpillar[1]) {
+            if (catHead === caterpillar[i]) {
+                // && catHead !== caterpillar[1]
                 console.log("collision with body")
                 collision = true
                 collisionSound.play()
