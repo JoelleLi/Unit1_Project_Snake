@@ -19,8 +19,6 @@ Table of Contents:
 
 ![Screenshot of the desktop UI of the game.](./assets/readme00.png)
 
-![Screenshot of the mobile UI of the game.](./assets/readme000.png)
-
 The first project in General Assembly’s Software Engineering Immersive course, and my first ever coding project. Created using pure JavaScript, HTML, and CSS, I designed and rendered my own Caterpillar version of the classic Snake game in the browser. 
 
 This game is desktop and mobile responsive, with the logo and caterpillar animation designed by myself.
