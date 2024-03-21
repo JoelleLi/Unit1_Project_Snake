@@ -9,9 +9,9 @@ function init() {
     let blipSound = new Audio("https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3")
     let collisionSound = new Audio("https://rpg.hamsterrepublic.com/wiki-images/d/d7/Oddbounce.ogg")
 
-    const originalVolume = 1.0;
-    blipSound.volume = originalVolume;
-    collisionSound.volume = originalVolume;
+    const originalVolume = 1.0
+    blipSound.volume = originalVolume
+    collisionSound.volume = originalVolume
 
     const muteButton = document.getElementById("muteButton")
     muteButton.addEventListener("click", toggleMute)
@@ -376,18 +376,17 @@ function init() {
                 catHead.classList.remove("catHead")
 
             } else {
-                gameOver = false
-            }
-        // Check if the cat's head collides with its own body
-        for (let i = 1; i < caterpillar.length; i++) {
-            if (catHead === caterpillar[i]) {
-                // && catHead !== caterpillar[1]
-                console.log("collision with body")
-                collision = true
-                collisionSound.play()
-                renderMessage()
-            } else {
-                gameOver = false
+            for (let i = 1; i < caterpillar.length; i++) { // Check if the cat's head collides with its own body
+
+                if (catHead === caterpillar[i]) {
+                    // && catHead !== caterpillar[1]
+                    console.log("collision with body")
+                    collision = true
+                    collisionSound.play()
+                    renderMessage()
+                } else {
+                    gameOver = false
+                }
             }
         }
     }
@@ -442,7 +441,7 @@ function init() {
         const key = event.keyCode
         const restartKey = 13
 
-        if (event.type === "click" || event.type === "touchstart" || key === restartKey) {
+        if ((event.type === "click" || event.type === "touchstart" || key === restartKey) && !gamePaused) {
             resetGame()
             document.removeEventListener("keyup", handleRestartOption, ("enter"))
             const gridMessage = document.getElementById("gridMessage")
