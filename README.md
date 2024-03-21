@@ -2,7 +2,6 @@
 Table of Contents:
 + Project Overview
 + Deployment Link
-+ Getting Started/ Code Installation
 + Timeframe & Working Team
 + Technologies Used
 + The Brief
@@ -18,6 +17,10 @@ Table of Contents:
 
 ### Project 1: Caterpillar
 
+![Screenshot of the desktop UI of the game.](./assets/readme00.png)
+
+![Screenshot of the mobile UI of the game.](./assets/readme000.png)
+
 The first project in General Assembly’s Software Engineering Immersive course, and my first ever coding project. Created using pure JavaScript, HTML, and CSS, I designed and rendered my own Caterpillar version of the classic Snake game in the browser. 
 
 This game is desktop and mobile responsive, with the logo and caterpillar animation designed by myself.
@@ -25,11 +28,6 @@ This game is desktop and mobile responsive, with the logo and caterpillar animat
 The aim of the game is to eat as much food as you can. The more you eat, the longer the caterpillar becomes and the faster it moves. Eat the randomly appearing fruit for bonus points.
 
 ## Find the completed project here: [Caterpillar](https://joelleli.github.io/Unit1_Project_Snake/)
-
-## Getting Started/ Code Installation
-
-> JS folder
-> script.js
 
 ## Timeframe & Working Team
 
@@ -59,13 +57,13 @@ I started out by researching the original Snake game to help me figure out what 
 
 I started my plan by making a list of all the variables, events and possible functions my game should have and the order in which I thought they should be executed. With this functionality in mind, I then designed my initial layout on Excalidraw. Keeping the layout simple, I decided to establish the core functionality of the game first before considering styling elements and responsive design.
 
-[Excalidraw plan of basic game grid layout.](./assets/readme01.png)
+![Excalidraw plan of basic game grid layout.](./assets/readme01.png)
 
 Once I had met the minimum requirements of the game functionality, I then designed different layouts which would change according to screen size.
 
-[Excalidraw plan for UX design of desktop view.](./assets/readme02.png)
+![Excalidraw plan for UX design of desktop view.](./assets/readme02.png)
 
-[Excalidraw plans for UX design of mobile and tablet view.](./assets/readme03.png)
+![Excalidraw plans for UX design of mobile and tablet view.](./assets/readme03.png)
 
 ## Build/Code Process
 
@@ -87,13 +85,13 @@ My next step was figuring out the logic to make the caterpillar’s body grow ev
 
 It took a lot of trial and error to work out the correct order of unshifting and popping the caterpillar array.
 
-[script.js - function which causes the caterpillar to move along by itself](./assets/readme04.png)
+![script.js - function which causes the caterpillar to move along by itself](./assets/readme04.png)
 
 I struggled with determining the conditionals for detecting the caterpillar’s collision with the walls. A collision was being detected when the caterpillar was in the very first and last columns and rows, rather than when it hit the actual walls.
 
 I managed to fix this by calling the checkForCollision function before the updateCatPosition function.
 
-[script.js - function checking for collision.](./assets/readme05.png)
+![script.js - function checking for collision.](./assets/readme05.png)
 
 I established all minimum requirements and core functionality of the game.
 
@@ -114,7 +112,7 @@ I used CSS keyframes for animation of my “caterpillar” logo.
 
 I tried to experiment with making the game over message appear on the grid, and it took me a while to figure this out in CSS using the position and z-index attributes.
 
-[script.js - function which renders the game over message when a collision happens.](./assets/readme06.png)
+![script.js - function which renders the game over message when a collision happens.](./assets/readme06.png)
 
 I had difficulty in figuring out how to implement a mute and unmute button which didn’t unmute itself every time the game reset. This was resolved by adding ```this.blur()``` to the end of the toggleMute function. 
 
